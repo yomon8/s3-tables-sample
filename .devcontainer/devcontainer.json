@@ -1,0 +1,62 @@
+{
+    "name": "s3-tables-sample",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "mounts": [
+        "source=${env:HOME}${env:USERPROFILE}/.aws/,target=/home/vscode/.aws/,type=bind",
+        "source=${env:HOME}${env:USERPROFILE}/.ssh/,target=/home/vscode/.ssh/,type=bind",
+    ],
+    "features": {},
+    "runArgs": [],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "[terraform-vars]": {
+                    "editor.defaultFormatter": "hashicorp.terraform"
+                },
+                "[terraform]": {
+                    "editor.defaultFormatter": "hashicorp.terraform"
+                },
+                "python.defaultInterpreterPath": ".venv/bin/python",
+                "ruff.enable": true,
+                "ruff.lint.run": "onSave",
+                "ruff.organizeImports": true,
+                "ruff.importStrategy": "useBundled",
+                "ruff.interpreter": [
+                    "/usr/local/bin/python"
+                ],
+                "[python]": {
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit",
+                        "source.fixAll": "never"
+                    },
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                }
+            },
+            "extensions": [
+                // Python
+                "ms-python.python",
+                "matangover.mypy",
+                "charliermarsh.ruff",
+                "njpwerner.autodocstring",
+                "ms-toolsai.jupyter",
+                "tamasfe.even-better-toml",
+                // Terraform
+                "HashiCorp.terraform",
+                "ms-vscode.makefile-tools",
+                "ms-azuretools.vscode-docker",
+                "saramorillon.terraform-graph",
+                // Docs
+                "hediet.vscode-drawio",
+                "yzhang.markdown-all-in-one",
+                "bierner.github-markdown-preview",
+                "bierner.markdown-mermaid"
+            ]
+        }
+    },
+    "postStartCommand": "uv python pin \"$(cat .python-version)\" && uv sync --dev",
+    "remoteUser": "vscode"
+}
